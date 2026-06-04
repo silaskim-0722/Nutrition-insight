@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nutrition Insight+ | 코치 전용 웰니스 스트리밍</title>
+  <link rel="icon" href="coachedu_favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="coachedu_favicon.png">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Nutrition Insight+">
+  <meta property="og:description" content="허벌라이프 코치 전용 프리미엄 웰니스 콘텐츠 플랫폼">
+  <meta property="og:image" content="https://www.coach-edu.site/og-image.png">
+  <meta property="og:url" content="https://www.coach-edu.site/">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* ==============================
+       CSS VARIABLES & RESET
+    ============================== */
+    :root {
+      --bg:        #0a0e0c;
+      --bg2:       #111814;
+      --surface:   #161e1a;
+      --surface2:  #1d2823;
+      --border:    rgba(255,255,255,0.07);
+      --green:     #00d170;
+      --green-dim: #00a856;
+      --gold:      #f5c842;
+      --text:      #e8f5ef;
+      --muted:     #7a9488;
+      --danger:    #e05252;
+      --card-r:    14px;
+      --nav-h:     64px;
+      --font-body: 'Noto Sans KR', sans-serif;
+      --font-disp: 'Bebas Neue', 'Noto Sans KR', sans-serif;
+    }
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    a { text-decoration:none; color:inherit; }
+    button { font-family: inherit; cursor:pointer; border:none; background:none; }
+    input, select { font-family: inherit; }
+    ::-webkit-scrollbar { width:6px; height:6px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--surface2); border-radius:99px; }
+
+    /* ==============================
+       ANIMATIONS
+    ============================== */
+    @keyframes fadeUp {
+      from { opacity:0; transform:translateY(22px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes shimmer {
+      0%   { background-position:-400px 0; }
+      100% { background-position:400px 0; }
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; }
+      50%      { opacity:.5; }
+    }
+    @keyframes spin {
+      to { transform:rotate(360deg); }
+    }
+    .fade-up { animation: fadeUp .5s ease both; }
+    .fade-up-2 { animation: fadeUp .5s .1s ease both; }
+    .fade-up-3 { animation: fadeUp .5s .2s ease both; }
+
+    /* ==============================
+       TOP NAV
+    ============================== */
+    #topNav {
+      position: fixed; top:0; left:0; right:0; z-index:900;
+      height: var(--nav-h);
+      display: flex; align-items:center; justify-content:space-between;
+      padding: 0 32px;
+      background: linear-gradient(180deg, rgba(10,14,12,.98) 0%, rgba(10,14,12,.0) 100%);
+      transition: background .3s;
+    }
+    #topNav.scrolled {
+      background: rgba(10,14,12,.97);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      display:flex; align-items:center; gap:10px;
+      font-family: var(--font-disp);
+      font-size: 1.55rem; letter-spacing:.04em;
+      color: var(--green);
+    }
+    .nav-logo .logo-leaf { font-size:1.3rem; }
+    .nav-logo .logo-badge {
+      font-family: var(--font-body);
+      font-size: .62rem; font-weight:700;
+      background: var(--green); color:#05140d;
+      border-radius:4px; padding:2px 6px;
+      letter-spacing:.04em;
+    }
+    .nav-center {
+      display:flex; gap:28px; list-style:none;
+    }
+    .nav-center a {
+      font-size:.9rem; font-weight:500;
+      color: var(--muted); transition:color .2s;
+    }
+    .nav-center a:hover { color: var(--text); }
+    .nav-right { display:flex; align-items:center; gap:12px; }
+    #loginBtn {
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: .88rem; font-weight:700;
+      background: var(--green); color:#05140d;
+      transition: all .2s;
+    }
+    #loginBtn:hover { background:#00f07e; transform:translateY(-1px); }
+    #loginBtn.logged-in {
+      background: var(--surface2); color:var(--text);
+      border:1px solid var(--border);
+    }
+    #estimateBtnNav {
+      padding:8px 16px; border-radius:8px;
+      font-size:.88rem; font-weight:700;
+      border:1px solid var(--green); color:var(--green);
+      transition: all .2s;
+    }
+    #estimateBtnNav:hover { background:rgba(0,209,112,.1); }
+
+    /* Mobile nav */
+    #mobileNav {
+      display:none; position:fixed; bottom:0; left:0; right:0; z-index:900;
+      background: rgba(13,18,15,.96);
+      border-top:1px solid var(--border);
+      padding:8px 0 12px;
+    }
+    .mobile-nav-inner {
+      display:flex; justify-content:space-around; align-items:center;
+    }
+    .mnav-item {
+      display:flex; flex-direction:column; align-items:center; gap:3px;
+      color:var(--muted); font-size:.68rem; font-weight:500;
+      transition:color .2s;
+    }
+    .mnav-item i { font-size:1.25rem; }
+    .mnav-item.active, .mnav-item:hover { color:var(--green); }
+    .mnav-estimate {
+      background: var(--gold); color:#1a1000;
+      border-radius:12px; padding:6px 14px;
+      font-weight:900; font-size:.8rem;
+    }
+
+    /* ==============================
+       AUTH WALL  (비로그인 상태)
+    ============================== */
+    #authWall {
+      display:none;
+      position:fixed; inset:0; z-index:800;
+      background:
+        radial-gradient(ellipse at 20% 10%, rgba(0,209,112,.12), transparent 50%),
+        radial-gradient(ellipse at 80% 90%, rgba(0,80,40,.15), transparent 50%),
+        var(--bg);
+      align-items:center; justify-content:center;
+      flex-direction:column;
+      padding:20px;
+    }
+    #authWall .aw-logo {
+      font-family: var(--font-disp); font-size:2.4rem;
+      color:var(--green); letter-spacing:.05em; margin-bottom:6px;
+    }
+    #authWall .aw-sub {
+      font-size:.85rem; color:var(--muted); margin-bottom:40px; text-align:center;
+    }
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      width: min(440px, 100%);
+      box-shadow: 0 40px 80px rgba(0,0,0,.5);
+    }
+    .auth-card h2 {
+      font-size:1.3rem; font-weight:900; margin-bottom:6px;
+    }
+    .auth-card .auth-desc {
+      font-size:.85rem; color:var(--muted); margin-bottom:28px;
+    }
+    .auth-tab-row {
+      display:flex; border-bottom:1px solid var(--border); margin-bottom:24px;
+    }
+    .auth-tab {
+      flex:1; padding:10px; text-align:center;
+      font-weight:700; font-size:.9rem; color:var(--muted);
+      border-bottom:2px solid transparent; margin-bottom:-1px;
+      transition:all .2s; cursor:pointer;
+    }
+    .auth-tab.active { color:var(--green); border-color:var(--green); }
+    .auth-pane { display:none; flex-direction:column; gap:12px; }
+    .auth-pane.active { display:flex; }
+    .auth-input {
+      width:100%; padding:13px 16px;
+      background: var(--surface2); border:1px solid var(--border);
+      border-radius:10px; color:var(--text); font-size:.93rem;
+      transition: border .2s;
+      outline:none;
+    }
+    .auth-input:focus { border-color:var(--green); }
+    .auth-input::placeholder { color:var(--muted); }
+    select.auth-input option { background:var(--surface2); }
+    .auth-submit {
+      width:100%; padding:14px;
+      background: var(--green); color:#04140a;
+      border-radius:10px; font-weight:900; font-size:.98rem;
+      transition:all .2s; margin-top:4px;
+    }
+    .auth-submit:hover { background:#00f07e; transform:translateY(-1px); }
+    .auth-err {
+      font-size:.82rem; color:var(--danger);
+      text-align:center; min-height:18px;
+    }
+
+    /* ==============================
+       MAIN CONTENT AREA
+    ============================== */
+    #mainContent {
+      display:none;
+      padding-top: var(--nav-h);
+    }
+
+    /* ==============================
+       HERO BANNER
+    ============================== */
+    .hero-banner {
+      position:relative; min-height:520px;
+      background:
+        linear-gradient(to right, rgba(10,14,12,.98) 30%, rgba(10,14,12,.4) 100%),
+        linear-gradient(to top, var(--bg) 0%, transparent 40%),
+        url('og-image.png') center/cover no-repeat;
+      display:flex; align-items:flex-end;
+      padding: 0 40px 60px;
+    }
+    .hero-inner { max-width:580px; }
+    .hero-kicker {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:.78rem; font-weight:900; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--green);
+      border:1px solid rgba(0,209,112,.35); border-radius:99px;
+      padding:5px 14px; margin-bottom:18px;
+    }
+    .hero-kicker::before {
+      content:''; width:7px; height:7px; border-radius:50%;
+      background:var(--green); animation:pulse 1.8s infinite;
+    }
+    .hero-title {
+      font-family: var(--font-disp);
+      font-size: clamp(3rem, 6vw, 5.2rem);
+      line-height:.95; letter-spacing:.03em;
+      color:#fff; margin-bottom:16px;
+    }
+    .hero-title span { color:var(--green); }
+    .hero-sub {
+      font-size:1rem; color:rgba(255,255,255,.75);
+      line-height:1.6; margin-bottom:28px; max-width:460px;
+    }
+    .hero-actions { display:flex; gap:12px; flex-wrap:wrap; }
+    .hero-btn {
+      padding:12px 28px; border-radius:10px;
+      font-weight:700; font-size:.95rem; transition:all .2s;
+    }
+    .hero-btn-primary {
+      background:var(--green); color:#04140a;
+    }
+    .hero-btn-primary:hover { background:#00f07e; transform:translateY(-2px); }
+    .hero-btn-secondary {
+      border:1px solid rgba(255,255,255,.3); color:#fff;
+      background:rgba(255,255,255,.08);
+    }
+    .hero-btn-secondary:hover { background:rgba(255,255,255,.15); }
+
+    /* ==============================
+       SEARCH BAR
+    ============================== */
+    .search-section {
+      background: var(--bg2);
+      padding: 28px 40px;
+      border-bottom: 1px solid var(--border);
+    }
+    .search-wrap {
+      max-width:860px; margin:0 auto;
+      display:flex; flex-direction:column; gap:16px;
+    }
+    .search-input-row {
+      display:flex; gap:10px; align-items:center;
+    }
+    .search-box {
+      flex:1; position:relative;
+    }
+    .search-box i {
+      position:absolute; left:16px; top:50%; transform:translateY(-50%);
+      color:var(--muted); font-size:1.05rem;
+    }
+    #searchInput {
+      width:100%; height:52px; padding:0 52px 0 48px;
+      background:var(--surface); border:1.5px solid var(--border);
+      border-radius:12px; color:var(--text); font-size:.98rem; font-weight:500;
+      outline:none; transition:border .2s;
+    }
+    #searchInput:focus { border-color:var(--green); }
+    #searchInput::placeholder { color:var(--muted); }
+    #clearSearch {
+      position:absolute; right:14px; top:50%; transform:translateY(-50%);
+      color:var(--muted); font-size:1rem; display:none;
+    }
+    #clearSearch:hover { color:var(--text); }
+    #searchGuide {
+      font-size:.85rem; color:var(--muted); text-align:center;
+      min-height:20px; transition:color .2s;
+    }
+    .chip-row {
+      display:flex; gap:8px; flex-wrap:wrap;
+    }
+    .chip {
+      padding:7px 16px; border-radius:99px;
+      font-size:.82rem; font-weight:700;
+      background:var(--surface); border:1px solid var(--border);
+      color:var(--muted); cursor:pointer; transition:all .2s;
+      white-space:nowrap;
+    }
+    .chip:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
+    .chip.active {
+      background:var(--green); color:#04140a; border-color:var(--green);
+    }
+
+    /* ==============================
+       VIDEO ROWS (Netflix-style)
+    ============================== */
+    #mainFeed { padding:32px 0 120px; }
+
+    .video-section { margin-bottom:48px; }
+    .section-header {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 40px; margin-bottom:16px;
+    }
+    .section-label {
+      display:flex; align-items:center; gap:10px;
+      font-size:1.15rem; font-weight:900;
+    }
+    .section-label .label-icon {
+      width:30px; height:30px; border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:.88rem; background:var(--surface2);
+    }
+    .section-count {
+      font-size:.78rem; color:var(--muted);
+      background:var(--surface2); border-radius:99px;
+      padding:3px 10px;
+    }
+
+    /* Horizontal scroll row */
+    .card-row-outer { position:relative; }
+    .card-row-scroll {
+      display:flex; gap:16px;
+      overflow-x:auto; scroll-behavior:smooth;
+      padding:4px 40px 16px;
+      scrollbar-width:none;
+    }
+    .card-row-scroll::-webkit-scrollbar { display:none; }
+
+    /* Arrow buttons */
+    .row-arrow {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:42px; height:42px; border-radius:50%;
+      background:rgba(10,14,12,.92); border:1px solid var(--border);
+      color:var(--text); font-size:1.1rem; z-index:10;
+      display:flex; align-items:center; justify-content:center;
+      transition:all .2s; cursor:pointer;
+    }
+    .row-arrow:hover { background:var(--surface2); border-color:var(--green); color:var(--green); }
+    .row-arrow.left  { left:6px; }
+    .row-arrow.right { right:6px; }
+    .row-arrow:disabled { opacity:.2; pointer-events:none; }
+
+    /* VIDEO CARD */
+    .video-card {
+      flex-shrink:0; width:280px; border-radius:var(--card-r);
+      background:var(--surface); border:1px solid var(--border);
+      overflow:hidden; cursor:pointer;
+      transition:transform .25s, box-shadow .25s, border-color .25s;
+      position:relative;
+    }
+    .video-card:hover {
+      transform:translateY(-4px) scale(1.02);
+      box-shadow:0 24px 48px rgba(0,0,0,.5);
+      border-color:rgba(0,209,112,.3);
+    }
+    .video-card .thumb-wrap {
+      position:relative; aspect-ratio:16/9; overflow:hidden;
+    }
+    .video-card .thumb {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform .3s;
+    }
+    .video-card:hover .thumb { transform:scale(1.05); }
+    .thumb-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top, rgba(10,14,12,.9) 0%, transparent 60%);
+      opacity:0; transition:opacity .25s;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .video-card:hover .thumb-overlay { opacity:1; }
+    .play-btn {
+      width:48px; height:48px; border-radius:50%;
+      background:var(--green); color:#04140a; font-size:1.1rem;
+      display:flex; align-items:center; justify-content:center;
+      transform:scale(.8); transition:transform .2s;
+    }
+    .video-card:hover .play-btn { transform:scale(1); }
+    .card-body { padding:14px; }
+    .card-title {
+      font-size:.9rem; font-weight:700; line-height:1.4;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden; margin-bottom:8px;
+    }
+    .card-meta {
+      display:flex; align-items:center; justify-content:space-between;
+      font-size:.76rem; color:var(--muted);
+    }
+    .card-date { font-weight:500; }
+    .card-desc {
+      font-size:.78rem; color:var(--muted); line-height:1.55;
+      margin-top:6px;
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden;
+    }
+    .card-tags { display:flex; gap:4px; flex-wrap:wrap; margin-top:8px; }
+    .card-tag {
+      font-size:.68rem; font-weight:700;
+      background:rgba(0,209,112,.1); color:var(--green);
+      border-radius:4px; padding:2px 7px;
+    }
+    .card-actions {
+      display:flex; gap:6px; padding:10px 14px 14px;
+      border-top:1px solid var(--border);
+    }
+    .card-btn {
+      flex:1; padding:8px; border-radius:8px; font-size:.78rem; font-weight:700;
+      text-align:center; transition:all .2s; border:1px solid var(--border);
+      color:var(--muted); background:transparent;
+    }
+    .card-btn.primary {
+      background:var(--green); color:#04140a; border-color:var(--green);
+    }
+    .card-btn.primary:hover { background:#00f07e; }
+    .card-btn:not(.primary):hover { background:var(--surface2); color:var(--text); }
+
+    /* GRID VIEW (search results) */
+    .video-grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap:20px; padding:0 40px;
+    }
+    .video-grid .video-card { width:100%; }
+
+    /* ==============================
+       CATEGORY CHIPS (section filter)
+    ============================== */
+    .cat-filter-row {
+      display:flex; gap:10px; padding:0 40px; margin-bottom:32px;
+      overflow-x:auto; scrollbar-width:none;
+    }
+    .cat-filter-row::-webkit-scrollbar { display:none; }
+    .cat-chip {
+      flex-shrink:0; padding:9px 20px; border-radius:10px;
+      font-size:.85rem; font-weight:700; cursor:pointer;
+      border:1px solid var(--border); color:var(--muted);
+      background:var(--surface); transition:all .2s;
+      display:flex; align-items:center; gap:7px;
+    }
+    .cat-chip .cat-icon { font-size:1rem; }
+    .cat-chip:hover { color:var(--text); border-color:rgba(255,255,255,.2); }
+    .cat-chip.active {
+      background:var(--surface2); color:var(--text);
+      border-color:var(--green); box-shadow:0 0 0 1px rgba(0,209,112,.3);
+    }
+
+    /* ==============================
+       LOADING SKELETON
+    ============================== */
+    .skeleton {
+      background: linear-gradient(90deg, var(--surface) 25%, var(--surface2) 50%, var(--surface) 75%);
+      background-size:400px 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius:var(--card-r);
+    }
+    .skeleton-card {
+      flex-shrink:0; width:280px; height:220px; border-radius:var(--card-r);
+    }
+
+    /* ==============================
+       MODALS
+    ============================== */
+    .modal-bg {
+      position:fixed; inset:0; z-index:1000;
+      background:rgba(0,0,0,.65); backdrop-filter:blur(6px);
+      display:none; align-items:center; justify-content:center; padding:20px;
+    }
+    .modal-bg.open { display:flex; }
+    .modal-box {
+      background:var(--surface); border:1px solid var(--border);
+      border-radius:20px; padding:32px; width:min(500px,100%);
+      max-height:90vh; overflow-y:auto;
+      box-shadow:0 50px 100px rgba(0,0,0,.6);
+      animation:fadeUp .3s ease;
+    }
+    .modal-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:22px;
+    }
+    .modal-title { font-size:1.2rem; font-weight:900; }
+    .modal-close {
+      width:32px; height:32px; border-radius:50%;
+      background:var(--surface2); color:var(--muted); font-size:1.1rem;
+      display:flex; align-items:center; justify-content:center; transition:all .2s;
+    }
+    .modal-close:hover { background:var(--danger); color:#fff; }
+
+    /* Estimate modal */
+    #estimateModal .modal-box { width:min(700px,100%); }
+    .estimate-table-wrap {
+      max-height:360px; overflow-y:auto;
+      border:1px solid var(--border); border-radius:10px;
+      margin-bottom:18px;
+    }
+    .estimate-table {
+      width:100%; border-collapse:collapse; font-size:.88rem;
+    }
+    .estimate-table th {
+      background:var(--surface2); color:var(--green);
+      padding:10px 12px; text-align:left;
+      position:sticky; top:0;
+      font-size:.8rem; font-weight:700;
+    }
+    .estimate-table td {
+      padding:9px 12px; border-bottom:1px solid var(--border);
+      color:var(--text);
+    }
+    .estimate-table tr:last-child td { border-bottom:none; }
+    .estimate-table input[type=number] {
+      width:52px; background:var(--surface2); border:1px solid var(--border);
+      border-radius:6px; color:var(--text); text-align:center;
+      padding:4px 6px; font-size:.85rem;
+    }
+    .estimate-total {
+      font-size:1.08rem; font-weight:900; color:var(--green);
+      text-align:right; padding:12px 0;
+    }
+
+    /* Alert modal */
+    #alertModal .modal-box {
+      max-width:340px; text-align:center; padding:40px 28px;
+    }
+    .alert-icon { font-size:3rem; margin-bottom:14px; }
+    .alert-msg { font-weight:700; font-size:1.05rem; margin-bottom:24px; line-height:1.6; }
+    .alert-actions { display:flex; gap:10px; justify-content:center; }
+    .alert-btn {
+      padding:10px 24px; border-radius:10px;
+      font-weight:700; font-size:.9rem; transition:all .2s;
+    }
+    .alert-btn.primary { background:var(--green); color:#04140a; }
+    .alert-btn.secondary {
+      background:transparent; color:var(--text);
+      border:1px solid var(--border);
+    }
+    .alert-btn:hover { opacity:.85; transform:translateY(-1px); }
+
+    /* Toast */
+    #toast {
+      position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
+      background:var(--surface2); border:1px solid var(--border);
+      border-radius:10px; padding:12px 22px;
+      font-size:.88rem; font-weight:600; color:var(--text);
+      z-index:2000; opacity:0; pointer-events:none;
+      transition:opacity .3s, bottom .3s;
+    }
+    #toast.show { opacity:1; bottom:100px; }
+
+    /* Logout warning */
+    #logoutWarning {
+      position:fixed; bottom:80px; right:20px; z-index:2000;
+      background:var(--surface); border:1px solid var(--gold);
+      border-radius:14px; padding:18px 22px; max-width:280px;
+      box-shadow:0 20px 40px rgba(0,0,0,.5);
+      animation:fadeUp .3s ease;
+    }
+    .lw-msg { font-size:.88rem; font-weight:600; margin-bottom:12px; }
+    .lw-msg span { color:var(--gold); }
+    .lw-btn {
+      width:100%; padding:9px; border-radius:8px;
+      background:var(--gold); color:#1a1000;
+      font-weight:900; font-size:.85rem;
+    }
+
+    /* ==============================
+       FOOTER
+    ============================== */
+    footer {
+      background:var(--bg2); border-top:1px solid var(--border);
+      padding:48px 40px 36px;
+    }
+    .footer-grid {
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(180px,1fr));
+      gap:36px; max-width:1100px; margin:0 auto 32px;
+    }
+    .footer-col h4 {
+      font-size:.82rem; font-weight:900; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--green); margin-bottom:14px;
+    }
+    .footer-col p, .footer-col a {
+      font-size:.84rem; color:var(--muted); line-height:1.8;
+      display:block; transition:color .2s;
+    }
+    .footer-col a:hover { color:var(--text); }
+    .footer-bottom {
+      border-top:1px solid var(--border); padding-top:20px;
+      font-size:.78rem; color:var(--muted); text-align:center;
+    }
+
+    /* ==============================
+       EMPTY / ERROR STATES
+    ============================== */
+    .empty-state {
+      text-align:center; padding:60px 40px; color:var(--muted);
+    }
+    .empty-state i { font-size:2.5rem; margin-bottom:14px; color:var(--surface2); }
+    .empty-state p { font-size:.95rem; }
+
+    /* Search result count bar */
+    .result-bar {
+      padding:0 40px; margin-bottom:20px;
+      font-size:.88rem; color:var(--muted);
+    }
+    .result-bar strong { color:var(--green); font-weight:900; }
+
+    /* ==============================
+       RESPONSIVE
+    ============================== */
+    @media (max-width:768px) {
+      :root { --nav-h:56px; }
+      #topNav { padding:0 16px; }
+      .nav-center, #estimateBtnNav { display:none !important; }
+      #mobileNav { display:block; }
+      .hero-banner { padding:0 20px 48px; min-height:380px; }
+      .hero-title { font-size:2.6rem; }
+      .search-section { padding:20px 16px; }
+      .chip-row { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; }
+      .chip-row::-webkit-scrollbar { display:none; }
+      .section-header { padding:0 16px; }
+      .card-row-scroll { padding:4px 16px 16px; }
+      .video-grid { padding:0 16px; grid-template-columns:1fr 1fr; gap:12px; }
+      .video-grid .video-card .card-desc { display:none; }
+      .cat-filter-row { padding:0 16px; }
+      .row-arrow { display:none; }
+      .video-card { width:200px; }
+      .video-grid .video-card { width:100%; }
+      footer { padding:32px 20px 90px; }
+      #mainFeed { padding-bottom:80px; }
+    }
+    @media (max-width:420px) {
+      .video-grid { grid-template-columns:1fr; }
+    }
+
+    /* ==============================
+       VIDEO PLAYER MODAL
+    ============================== */
+    #videoPlayerModal {
+      position: fixed; inset: 0; z-index: 1100;
+      background: rgba(0,0,0,.88); backdrop-filter: blur(8px);
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    #videoPlayerModal.open { display: flex; }
+    .vp-box {
+      width: min(900px, 100%);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 50px 100px rgba(0,0,0,.7);
+      animation: fadeUp .3s ease;
+    }
+    .vp-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+    }
+    .vp-title {
+      font-size: .95rem; font-weight: 700;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      max-width: calc(100% - 48px);
+    }
+    .vp-close {
+      flex-shrink: 0; width: 34px; height: 34px; border-radius: 50%;
+      background: var(--surface2); color: var(--muted);
+      font-size: 1.1rem; display: flex; align-items: center; justify-content: center;
+      transition: all .2s; cursor: pointer;
+    }
+    .vp-close:hover { background: var(--danger); color: #fff; }
+    .vp-iframe-wrap {
+      position: relative; width: 100%; aspect-ratio: 16/9; background: #000;
+    }
+    .vp-iframe-wrap iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .vp-footer {
+      padding: 12px 18px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px;
+    }
+    .vp-yt-btn {
+      font-size: .82rem; font-weight: 700; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+      transition: color .2s;
+    }
+    .vp-yt-btn:hover { color: #ff4444; }
+    @media (max-width: 768px) {
+      #videoPlayerModal { padding: 0; align-items: flex-end; }
+      .vp-box { border-radius: 18px 18px 0 0; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================== TOP NAV ============================== -->
+<header id="topNav">
+  <a class="nav-logo" href="#">
+    <span class="logo-leaf"><i class="fas fa-leaf"></i></span>
+    NUTRITION INSIGHT
+    <span class="logo-badge">+</span>
+  </a>
+  <ul class="nav-center" id="navLinks">
+    <li><a href="#" onclick="scrollToFeed()">콘텐츠</a></li>
+    <li><a href="https://open.kakao.com/me/fitcouple" target="_blank">문의</a></li>
+    <li><a href="#" id="estimateBtnNav"><i class="fas fa-calculator" style="font-size:.85rem"></i> 제품견적</a></li>
+  </ul>
+  <div class="nav-right">
+    <button id="loginBtn" onclick="handleLoginBtnClick()">로그인</button>
+  </div>
+</header>
+
+<!-- ============================== MOBILE NAV ============================== -->
+<nav id="mobileNav">
+  <div class="mobile-nav-inner">
+    <div class="mnav-item active" onclick="scrollToFeed()">
+      <i class="fas fa-home"></i><span>홈</span>
+    </div>
+    <div class="mnav-item" onclick="focusSearch()">
+      <i class="fas fa-search"></i><span>검색</span>
+    </div>
+    <div class="mnav-item mnav-estimate" id="mobileEstimateBtn" onclick="openEstimate()">
+      <i class="fas fa-calculator"></i> 견적
+    </div>
+    <div class="mnav-item" onclick="handleLoginBtnClick()">
+      <i class="fas fa-user"></i><span id="mobileLoginLabel">로그인</span>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================== AUTH WALL ============================== -->
+<div id="authWall" style="display:flex">
+  <div class="aw-logo"><i class="fas fa-leaf"></i> NUTRITION INSIGHT+</div>
+  <p class="aw-sub">허벌라이프 코치 전용 프리미엄 웰니스 콘텐츠 플랫폼</p>
+  <div class="auth-card fade-up">
+    <div class="auth-tab-row">
+      <div class="auth-tab active" id="tabLogin" onclick="switchTab('login')">로그인</div>
+      <div class="auth-tab" id="tabSignup" onclick="switchTab('signup')">회원가입</div>
+    </div>
+
+    <!-- Login pane -->
+    <div class="auth-pane active" id="paneLogin">
+      <input class="auth-input" id="loginId" type="text" placeholder="허벌라이프 ID" autocomplete="off">
+      <input class="auth-input" id="loginName" type="text" placeholder="멤버 이름" autocomplete="off">
+      <div class="auth-err" id="loginErr"></div>
+      <button class="auth-submit" onclick="doLogin()">
+        <span id="loginBtnText">로그인</span>
+      </button>
+    </div>
+
+    <!-- Signup pane -->
+    <div class="auth-pane" id="paneSignup">
+      <input class="auth-input" id="signupId" type="text" placeholder="허벌라이프 ID" autocomplete="off">
+      <input class="auth-input" id="signupName" type="text" placeholder="멤버 이름 (실명)" autocomplete="off">
+      <select class="auth-input" id="signupTeam">
+        <option value="">팀위치 선택</option>
+        <option>SP</option>
+        <option>월드팀</option>
+        <option>겟팀</option>
+        <option>밀리어네어팀</option>
+        <option>프레지던트팀</option>
+      </select>
+      <select class="auth-input" id="signupUpline">
+        <option value="">상위 사장님 선택</option>
+        <option>한효정</option>
+        <option>이주영</option>
+        <option>이은정</option>
+        <option>김미옥</option>
+        <option>이미자</option>
+      </select>
+      <div class="auth-err" id="signupErr"></div>
+      <button class="auth-submit" onclick="doSignup()">
+        <span id="signupBtnText">회원가입 신청</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============================== MAIN CONTENT ============================== -->
+<main id="mainContent" style="display:none">
+
+  <!-- Hero -->
+  <section class="hero-banner" id="heroSection">
+    <div class="hero-inner">
+      <div class="hero-kicker fade-up">Premium Wellness Streaming</div>
+      <h1 class="hero-title fade-up-2">건강한 삶을<br>위한 <span>인사이트</span></h1>
+      <p class="hero-sub fade-up-3">영상이 쌓이면 코치의 지식 자산이 됩니다.<br>검색창에 키워드를 입력하면 관련 영상이 즉시 나타납니다.</p>
+      <div class="hero-actions fade-up-3">
+        <button class="hero-btn hero-btn-primary" onclick="focusSearch()">
+          <i class="fas fa-search"></i> 영상 검색하기
+        </button>
+        <button class="hero-btn hero-btn-secondary" onclick="openEstimate()">
+          <i class="fas fa-calculator"></i> 제품 견적
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search -->
+  <div class="search-section" id="searchSection">
+    <div class="search-wrap">
+      <div class="search-input-row">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input id="searchInput" type="text" placeholder="갱년기, 다이어트, 혈당, 쉐이크, 알로에, 단백질…" autocomplete="off">
+          <button id="clearSearch" onclick="clearSearchInput()"><i class="fas fa-times"></i></button>
+        </div>
+      </div>
+      <div class="chip-row" id="chipRow">
+        <button class="chip active" data-word="">전체</button>
+        <button class="chip" data-word="다이어트">다이어트</button>
+        <button class="chip" data-word="쉐이크">쉐이크</button>
+        <button class="chip" data-word="알로에">알로에</button>
+        <button class="chip" data-word="단백질">단백질</button>
+        <button class="chip" data-word="장건강">장건강</button>
+        <button class="chip" data-word="관절">관절</button>
+        <button class="chip" data-word="피부">피부</button>
+        <button class="chip" data-word="운동">운동</button>
+        <button class="chip" data-word="코치교육">코치교육</button>
+        <button class="chip" data-word="멤버가입">멤버가입</button>
+        <button class="chip" data-word="갱년기">갱년기</button>
+        <button class="chip" data-word="혈당">혈당</button>
+      </div>
+      <div id="searchGuide">콘텐츠를 검색하거나 아래 카테고리를 둘러보세요.</div>
+    </div>
+  </div>
+
+  <!-- Feed -->
+  <div id="mainFeed">
+
+    <!-- Search results (hidden by default) -->
+    <div id="searchResultsSection" style="display:none;">
+      <div class="result-bar" id="resultBar"></div>
+      <div class="video-grid" id="searchGrid"></div>
+    </div>
+
+    <!-- Category filter + rows -->
+    <div id="browseFeed">
+      <div class="cat-filter-row" id="catFilterRow" style="margin-top:32px;">
+        <button class="cat-chip active" data-cat="all"><span class="cat-icon">🎬</span> 전체</button>
+        <button class="cat-chip" data-cat="ai팟캐스트"><span class="cat-icon">🎙️</span> AI건강팟캐스트</button>
+        <button class="cat-chip" data-cat="코치교육"><span class="cat-icon">📚</span> 코치교육</button>
+        <button class="cat-chip" data-cat="제품교육"><span class="cat-icon">💊</span> 제품교육</button>
+        <button class="cat-chip" data-cat="다이어트"><span class="cat-icon">⚡</span> 다이어트</button>
+        <button class="cat-chip" data-cat="건강정보"><span class="cat-icon">🩺</span> 건강정보</button>
+        <button class="cat-chip" data-cat="고객사례"><span class="cat-icon">⭐</span> 고객사례</button>
+      </div>
+
+      <!-- Dynamic rows rendered by JS -->
+      <div id="videoRows"></div>
+
+      <!-- Loading skeletons -->
+      <div id="loadingFeed" style="margin-bottom:48px;">
+        <div class="video-section">
+          <div class="section-header">
+            <div class="skeleton" style="width:180px;height:22px;border-radius:6px;"></div>
+          </div>
+          <div class="card-row-outer">
+            <div class="card-row-scroll">
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+        <div class="video-section">
+          <div class="section-header">
+            <div class="skeleton" style="width:140px;height:22px;border-radius:6px;"></div>
+          </div>
+          <div class="card-row-outer">
+            <div class="card-row-scroll">
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+              <div class="skeleton skeleton-card"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer id="footerSection">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Nutrition Insight+</h4>
+        <p>허벌라이프 코치 전용<br>프리미엄 웰니스 스트리밍 플랫폼</p>
+        <p style="margin-top:10px;">운영: 로빈코치 · 10년차 웰니스코치</p>
+      </div>
+      <div class="footer-col">
+        <h4>콘텐츠</h4>
+        <a href="#">AI건강팟캐스트</a>
+        <a href="#">코치교육</a>
+        <a href="#">제품교육</a>
+        <a href="#">건강정보</a>
+        <a href="#">고객사례</a>
+      </div>
+      <div class="footer-col">
+        <h4>지원</h4>
+        <a href="https://open.kakao.com/me/fitcouple" target="_blank">1:1 문의</a>
+        <a href="https://open.kakao.com/me/fitcouple" target="_blank">피드백</a>
+        <a href="https://youtube.com/@bubudiet" target="_blank">유튜브 채널</a>
+      </div>
+      <div class="footer-col">
+        <h4>연락처</h4>
+        <p><i class="fas fa-phone" style="width:16px"></i> 010.8003.0722</p>
+        <p><i class="fas fa-envelope" style="width:16px"></i> hebalbubu@gmail.com</p>
+        <p><i class="fas fa-map-marker-alt" style="width:16px"></i> 군산시 의료원로</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © Nutrition Insight+ · 허벌라이프 코치 전용 프리미엄 웰니스 콘텐츠 플랫폼
+    </div>
+  </footer>
+</main>
+
+<!-- ============================== MODALS ============================== -->
+
+<!-- Alert (비로그인 접근) -->
+<div class="modal-bg" id="alertModal">
+  <div class="modal-box">
+    <div class="alert-icon">🔒</div>
+    <p class="alert-msg">이 콘텐츠는 정식 코치만 이용 가능합니다.<br>로그인 후 시청하세요.</p>
+    <div class="alert-actions">
+      <button class="alert-btn primary" onclick="closeAlert();openLoginModal()">로그인</button>
+      <button class="alert-btn secondary" onclick="closeAlert();openLoginModal('signup')">회원가입</button>
+    </div>
+  </div>
+</div>
+
+<!-- Estimate -->
+<div class="modal-bg" id="estimateModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">📋 제품 견적서</span>
+      <button class="modal-close" onclick="closeModal('estimateModal')">&times;</button>
+    </div>
+    <div class="estimate-table-wrap">
+      <table class="estimate-table">
+        <thead id="estimateHead"></thead>
+        <tbody id="estimateBody"></tbody>
+      </table>
+    </div>
+    <div class="estimate-total" id="estimateTotal"></div>
+    <button class="auth-submit" onclick="closeModal('estimateModal')">닫기</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- Logout warning -->
+<div id="logoutWarning" style="display:none;">
+  <p class="lw-msg">⚠️ <span>5분 후</span> 자동 로그아웃됩니다.</p>
+  <button class="lw-btn" onclick="resetLogoutTimer();document.getElementById('logoutWarning').style.display='none'">계속 이용하기</button>
+</div>
+
+<!-- ============================== SCRIPTS ============================== -->
+<script>
+/* ============================================================
+   CONFIG
+============================================================ */
+const API_KEY = ['AIzaSyDyx75uISUhEE6kKPFArUFfY','tF2pcWDfWU'].join('');
+const PLAYLIST_IDS = [
+  'PLPSWMuklm8j0BYWQaOfuaINuwvtyoviTV',
+  'PLPSWMuklm8j2Nsrw0MriCiZtMYY_PL8Ii',
+  'PLPSWMuklm8j2lN5m8MUhoT73iouhI1l5L',
+  'PLPSWMuklm8j35-rWI85gjbodU_H_PVNxt',
+  'PLPSWMuklm8j2GeFloktCmL_yj3L9MKYlL',
+  'PLPSWMuklm8j1OlWjzxF0UQHEDX6B441ES',
+  'PLPSWMuklm8j1C3jacgnycMteKW8_TnVZP'
+];
+// Playlist → Category mapping
+const PLAYLIST_CAT = {
+  'PLPSWMuklm8j0BYWQaOfuaINuwvtyoviTV': 'ai팟캐스트',
+  'PLPSWMuklm8j2Nsrw0MriCiZtMYY_PL8Ii': '코치교육',
+  'PLPSWMuklm8j2lN5m8MUhoT73iouhI1l5L': '제품교육',
+  'PLPSWMuklm8j35-rWI85gjbodU_H_PVNxt': '다이어트',
+  'PLPSWMuklm8j2GeFloktCmL_yj3L9MKYlL': '건강정보',
+  'PLPSWMuklm8j1OlWjzxF0UQHEDX6B441ES': '건강정보',
+  'PLPSWMuklm8j1C3jacgnycMteKW8_TnVZP': '고객사례'
+};
+const SECTION_META = {
+  'ai팟캐스트': { label:'AI 건강팟캐스트', icon:'🎙️' },
+  '코치교육':   { label:'코치교육', icon:'📚' },
+  '제품교육':   { label:'제품교육', icon:'💊' },
+  '다이어트':   { label:'다이어트 · 체중관리', icon:'⚡' },
+  '건강정보':   { label:'건강정보', icon:'🩺' },
+  '고객사례':   { label:'고객 성공사례', icon:'⭐' }
+};
+
+const AT_KEY  = ['patfyiX4h33ZcZopN.','952737b1246b7e8f4b8093bb308df2cdac3af1f9573696b4c5af6981f63374b4'].join('');
+const AT_BASE = 'appAHmDSvu3AVoBMN';
+const AT_USERS_TABLE = 'tbluQFiRPVXzP50iV';
+const AT_LOG_TABLE   = 'activity_logs';
+const AT_LOGIN_TABLE = 'login_logs';
+
+let videos = [];
+let currentCat = 'all';
+
+/* ============================================================
+   AUTH STATE
+============================================================ */
+function isLoggedIn() {
+  return localStorage.getItem('isLoggedIn') === 'true';
+}
+function applyAuthVisibility() {
+  const loggedIn = isLoggedIn();
+  document.getElementById('authWall').style.display  = loggedIn ? 'none' : 'flex';
+  document.getElementById('mainContent').style.display = loggedIn ? 'block' : 'none';
+  const lb = document.getElementById('loginBtn');
+  lb.textContent = loggedIn ? '로그아웃' : '로그인';
+  lb.className = loggedIn ? 'logged-in' : '';
+  document.getElementById('mobileLoginLabel').textContent = loggedIn ? '로그아웃' : '로그인';
+}
+function setLogin(state) {
+  if (state) localStorage.setItem('isLoggedIn', 'true');
+  else { localStorage.removeItem('isLoggedIn'); }
+  applyAuthVisibility();
+  if (state) { resetLogoutTimer(); loadVideos(); }
+  else { if (logoutTimer) clearTimeout(logoutTimer); if (warnTimer) clearTimeout(warnTimer); }
+}
+function handleLoginBtnClick() {
+  if (isLoggedIn()) {
+    setLogin(false);
+    showToast('로그아웃 되었습니다.');
+  } else {
+    // already on auth wall
+    window.scrollTo(0,0);
+  }
+}
+
+/* ============================================================
+   AUTH FORMS
+============================================================ */
+function switchTab(tab) {
+  document.getElementById('paneLogin').classList.toggle('active', tab==='login');
+  document.getElementById('paneSignup').classList.toggle('active', tab==='signup');
+  document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+  document.getElementById('tabSignup').classList.toggle('active', tab==='signup');
+}
+function openLoginModal(tab='login') { switchTab(tab); window.scrollTo(0,0); }
+
+async function doLogin() {
+  const id   = document.getElementById('loginId').value.trim();
+  const name = document.getElementById('loginName').value.trim();
+  const err  = document.getElementById('loginErr');
+  const btn  = document.getElementById('loginBtnText');
+  err.textContent = '';
+  if (!id || !name) { err.textContent = '허벌라이프 ID와 이름을 입력하세요.'; return; }
+  btn.textContent = '확인 중…';
+  try {
+    const filter = `AND(LOWER({herbalife_id})='${id.toLowerCase()}', LOWER({name})='${name.toLowerCase()}')`;
+    const url = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_USERS_TABLE)}?filterByFormula=${encodeURIComponent(filter)}`;
+    const res = await fetch(url, { headers:{ 'Authorization':'Bearer '+AT_KEY } });
+    const data = await res.json();
+    if (!data.records || data.records.length === 0) {
+      err.textContent = '가입 정보가 없습니다. 회원가입을 먼저 진행해 주세요.'; return;
+    }
+    const approved = data.records[0].fields.approved;
+    if (approved === '승인') {
+      localStorage.setItem('lastLoginId', id);
+      localStorage.setItem('lastLoginName', name);
+      setLogin(true);
+      fetch(`https://api.airtable.com/v0/${AT_BASE}/${AT_LOGIN_TABLE}`, {
+        method:'POST', headers:{'Authorization':'Bearer '+AT_KEY,'Content-Type':'application/json'},
+        body:JSON.stringify({ fields:{ herbalife_id:id, name, login_time:new Date().toISOString() } })
+      });
+      if (!localStorage.getItem('welcomed_'+id)) {
+        localStorage.setItem('welcomed_'+id,'true');
+        showToast('✅ 환영합니다! 정식 이용이 가능합니다.');
+      }
+    } else if (approved === '불가')  { err.textContent = '승인되지 않은 계정입니다. 관리자에게 문의하세요.'; }
+    else if (approved === '차단') {
+      err.textContent = '이용이 잠시 중단되었습니다.';
+      setTimeout(()=>window.open('https://open.kakao.com/me/fitcouple','_blank'),1500);
+    }
+    else { err.textContent = '관리자의 승인을 기다리고 있습니다. 잠시만 기다려 주세요.'; }
+  } catch(e) { err.textContent = '오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'; }
+  finally { btn.textContent = '로그인'; }
+}
+async function doSignup() {
+  const id   = document.getElementById('signupId').value.trim();
+  const name = document.getElementById('signupName').value.trim();
+  const team = document.getElementById('signupTeam').value;
+  const up   = document.getElementById('signupUpline').value;
+  const err  = document.getElementById('signupErr');
+  const btn  = document.getElementById('signupBtnText');
+  err.textContent = '';
+  if (!id||!name||!team||!up) { err.textContent = '모든 항목을 입력해 주세요.'; return; }
+  btn.textContent = '처리 중…';
+  try {
+    const filter = `{herbalife_id}='${id}'`;
+    const checkUrl = `https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_USERS_TABLE)}?filterByFormula=${encodeURIComponent(filter)}`;
+    const chkRes = await fetch(checkUrl, { headers:{'Authorization':'Bearer '+AT_KEY} });
+    const chkData = await chkRes.json();
+    if (chkData.records && chkData.records.length > 0) { err.textContent = '이미 회원가입 신청이 진행 중입니다.'; return; }
+    const postRes = await fetch(`https://api.airtable.com/v0/${AT_BASE}/${encodeURIComponent(AT_USERS_TABLE)}`, {
+      method:'POST', headers:{'Authorization':'Bearer '+AT_KEY,'Content-Type':'application/json'},
+      body:JSON.stringify({ fields:{ herbalife_id:id, name, team_label:team, upline:up } })
+    });
+    if (postRes.ok) {
+      showToast('✅ 회원가입 신청 완료! 승인 후 이용 가능합니다.');
+      switchTab('login');
+    } else { err.textContent = '회원가입에 실패했습니다. 다시 시도해 주세요.'; }
+  } catch(e) { err.textContent = '오류가 발생했습니다. 잠시 후 다시 시도해 주세요.'; }
+  finally { btn.textContent = '회원가입 신청'; }
+}
+
+/* Enter key support */
+['loginId','loginName'].forEach(id => {
+  document.getElementById(id).addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+});
+
+/* ============================================================
+   YOUTUBE / VIDEO DATA
+============================================================ */
+async function fetchPlaylistVideos(playlistId) {
+  let all = [], token = '';
+  do {
+    const url = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&maxResults=50&playlistId=${playlistId}&key=${API_KEY}${token?`&pageToken=${token}`:''}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    if (data.items) all = all.concat(data.items);
+    token = data.nextPageToken || '';
+  } while(token);
+  return all
+    .filter(i => i.snippet?.resourceId && i.snippet?.thumbnails?.medium)
+    .map(i => ({
+      id: i.snippet.resourceId.videoId,
+      title: i.snippet.title,
+      description: i.snippet.description || '',
+      tags: [],
+      url: `https://www.youtube.com/watch?v=${i.snippet.resourceId.videoId}`,
+      embedUrl: `https://www.youtube.com/embed/${i.snippet.resourceId.videoId}`,
+      thumbnail: i.snippet.thumbnails.high?.url || i.snippet.thumbnails.medium.url,
+      uploadDate: (i.snippet.publishedAt||'').slice(0,10),
+      category: PLAYLIST_CAT[playlistId] || '기타'
+    }));
+}
+
+async function loadVideos() {
+  if (videos.length > 0) { renderBrowseFeed(); return; }
+  document.getElementById('loadingFeed').style.display = 'block';
+  document.getElementById('videoRows').innerHTML = '';
+  let all = [];
+  for (const pid of PLAYLIST_IDS) {
+    try { all = all.concat(await fetchPlaylistVideos(pid)); } catch(e) {}
+  }
+  // dedupe by id
+  const seen = new Set();
+  videos = all.filter(v => { if(seen.has(v.id)) return false; seen.add(v.id); return true; });
+  document.getElementById('loadingFeed').style.display = 'none';
+  renderBrowseFeed();
+  saveActivityLog('접속', '');
+}
+
+/* ============================================================
+   RENDER — BROWSE FEED (category rows)
+============================================================ */
+function renderBrowseFeed() {
+  const container = document.getElementById('videoRows');
+  container.innerHTML = '';
+  const cats = currentCat === 'all'
+    ? Object.keys(SECTION_META)
+    : [currentCat];
+  let rendered = 0;
+  cats.forEach((cat, idx) => {
+    const list = videos.filter(v => v.category === cat);
+    if (!list.length) return;
+    rendered++;
+    const meta = SECTION_META[cat] || { label:cat, icon:'🎬' };
+    const rowId = 'row_cat_' + idx;
+
+    // 섹션 전체를 DOM API로 생성 — innerHTML onclick 문제 완전 제거
+    const sec = document.createElement('div');
+    sec.className = 'video-section';
+
+    // 헤더
+    const header = document.createElement('div');
+    header.className = 'section-header';
+    header.innerHTML = `
+      <div class="section-label"><span>${meta.icon}</span> ${meta.label}</div>
+      <span class="section-count">${list.length}개 영상</span>`;
+    sec.appendChild(header);
+
+    // 카드 row 래퍼
+    const outer = document.createElement('div');
+    outer.className = 'card-row-outer';
+
+    // 왼쪽 화살표
+    const btnL = document.createElement('button');
+    btnL.className = 'row-arrow left';
+    btnL.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    btnL.addEventListener('click', () => {
+      const el = document.getElementById(rowId);
+      if (el) el.scrollBy({ left: -900, behavior: 'smooth' });
+    });
+
+    // 스크롤 트랙
+    const track = document.createElement('div');
+    track.className = 'card-row-scroll';
+    track.id = rowId;
+    track.innerHTML = list.map(v => videoCardHTML(v)).join('');
+
+    // 오른쪽 화살표
+    const btnR = document.createElement('button');
+    btnR.className = 'row-arrow right';
+    btnR.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    btnR.addEventListener('click', () => {
+      const el = document.getElementById(rowId);
+      if (el) el.scrollBy({ left: 900, behavior: 'smooth' });
+    });
+
+    outer.appendChild(btnL);
+    outer.appendChild(track);
+    outer.appendChild(btnR);
+    sec.appendChild(outer);
+    container.appendChild(sec);
+  });
+
+  if (!rendered) {
+    container.innerHTML = '<div class="empty-state"><i class="fas fa-film"></i><p>해당 카테고리 영상이 없습니다.</p></div>';
+  }
+}
+
+function scrollRow(rowId, dir) {
+  const el = document.getElementById(rowId);
+  if(el) el.scrollBy({ left: dir * 900, behavior:'smooth' });
+}
+
+/* ============================================================
+   RENDER — SEARCH RESULTS
+============================================================ */
+function renderSearch(keyword) {
+  const q = keyword.trim().toLowerCase();
+  const browseFeed = document.getElementById('browseFeed');
+  const searchSec  = document.getElementById('searchResultsSection');
+  const grid       = document.getElementById('searchGrid');
+  const bar        = document.getElementById('resultBar');
+  const guide      = document.getElementById('searchGuide');
+
+  if (!q) {
+    searchSec.style.display  = 'none';
+    browseFeed.style.display = 'block';
+    guide.textContent = '콘텐츠를 검색하거나 아래 카테고리를 둘러보세요.';
+    document.getElementById('clearSearch').style.display = 'none';
+    return;
+  }
+  document.getElementById('clearSearch').style.display = 'flex';
+  if (!isLoggedIn()) {
+    guide.textContent = '로그인 후 검색이 가능합니다.';
+    guide.style.color = 'var(--gold)';
+    return;
+  }
+  const words = q.split(/[\s,]+/).filter(Boolean);
+  let filtered = videos.filter(v =>
+    words.every(w =>
+      v.title.toLowerCase().includes(w) ||
+      v.description.toLowerCase().includes(w) ||
+      v.tags.some(t => t.toLowerCase().includes(w)) ||
+      v.category.toLowerCase().includes(w)
+    )
+  );
+  searchSec.style.display  = 'block';
+  browseFeed.style.display = 'none';
+  guide.textContent = '';
+  bar.innerHTML = `<strong>"${keyword}"</strong> 검색 결과 <strong>${filtered.length}개</strong>`;
+  if (!filtered.length) {
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-search"></i><p>검색 결과가 없습니다. 다른 키워드를 시도해 보세요.</p></div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(v => videoCardHTML(v, true)).join('');
+  saveActivityLog('검색', keyword);
+}
+
+/* ============================================================
+   VIDEO CARD HTML
+============================================================ */
+function videoCardHTML(v, wide=false) {
+  const date = v.uploadDate ? v.uploadDate.replace(/-/g,'.') : '';
+  // data-* 속성으로 저장 — 따옴표/특수문자 안전
+  const safeUrl   = v.url.replace(/"/g, '&quot;');
+  const safeTitle = (v.title||'').replace(/"/g, '&quot;');
+  const safeSrc   = (v.thumbnail||'').replace(/"/g, '&quot;');
+  const safeDesc  = v.description ? v.description.slice(0,120).replace(/</g,'&lt;').replace(/>/g,'&gt;') : '';
+  return `
+    <div class="video-card" data-url="${safeUrl}" data-title="${safeTitle}" onclick="cardClick(this)">
+      <div class="thumb-wrap">
+        <img class="thumb" src="${safeSrc}" alt="" loading="lazy">
+        <div class="thumb-overlay">
+          <div class="play-btn"><i class="fas fa-play" style="margin-left:3px"></i></div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title">${safeTitle}</div>
+        <div class="card-meta">
+          <span class="card-date">${date}</span>
+          <span style="font-size:.72rem;color:var(--green);font-weight:700;">${v.category||''}</span>
+        </div>
+        ${safeDesc ? `<div class="card-desc">${safeDesc}</div>` : ''}
+      </div>
+      <div class="card-actions">
+        <button class="card-btn primary" onclick="event.stopPropagation();cardPlay(this)">
+          <i class="fas fa-play"></i> 보기
+        </button>
+        <button class="card-btn" onclick="event.stopPropagation();cardCopy(this)">
+          <i class="fas fa-link"></i> 복사
+        </button>
+      </div>
+    </div>
+  `;
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
+/* ============================================================
+   VIDEO CLICK
+============================================================ */
+// data-* 기반 클릭 헬퍼
+// 핵심: window.open은 반드시 실제 사용자 클릭 컨텍스트에서 직접 호출해야 팝업 차단 안됨
+function cardClick(el) {
+  if (!isLoggedIn()) { openAlertModal(); return; }
+  const url   = el.dataset.url;
+  const title = el.dataset.title;
+  openVideo(url, title);
+}
+function cardPlay(el) {
+  if (!isLoggedIn()) { openAlertModal(); return; }
+  const card  = el.closest('.video-card');
+  openVideo(card.dataset.url, card.dataset.title);
+}
+function cardCopy(el) {
+  const card = el.closest('.video-card');
+  copyLink(card.dataset.url);
+}
+// 실제로 영상 여는 함수 — 사이트 내 embed 플레이어
+function openVideo(url, title) {
+  // youtube.com/watch?v=ID → embed/ID 변환
+  let embedUrl = url;
+  const matchWatch = url.match(/[?&]v=([^&]+)/);
+  const matchShort = url.match(/youtu\.be\/([^?]+)/);
+  const matchEmbed = url.match(/embed\/([^?]+)/);
+  const videoId = (matchWatch && matchWatch[1]) ||
+                  (matchShort && matchShort[1]) ||
+                  (matchEmbed && matchEmbed[1]);
+  if (videoId) {
+    embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+  }
+  // 모달 열기
+  document.getElementById('vpTitle').textContent = title || '';
+  document.getElementById('vpIframe').src = embedUrl;
+  document.getElementById('vpYtLink').href = url;
+  document.getElementById('videoPlayerModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  saveActivityLog('영상보기', title || '');
+  watchingVideo = true;
+  if (logoutTimer) clearTimeout(logoutTimer);
+  if (warnTimer)   clearTimeout(warnTimer);
+}
+function closeVideoPlayer() {
+  document.getElementById('videoPlayerModal').classList.remove('open');
+  document.getElementById('vpIframe').src = ''; // 재생 중단
+  document.body.style.overflow = '';
+  watchingVideo = false;
+  resetLogoutTimer();
+}
+// 모달 바깥 클릭 시 닫기
+document.getElementById('videoPlayerModal').addEventListener('click', function(e) {
+  if (e.target === this) closeVideoPlayer();
+});
+// ESC 키로 닫기
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeVideoPlayer();
+});
+
+let watchingVideo = false;
+function handleVideoClick(e, url, title='') {
+  if (e && e.preventDefault) e.preventDefault();
+  if (!isLoggedIn()) { openAlertModal(); return; }
+  openVideo(url, title);
+}
+function copyLink(url) {
+  const done = () => showToast('🔗 링크가 복사되었습니다.');
+  if (navigator.clipboard?.writeText) navigator.clipboard.writeText(url).then(done).catch(() => legacyCopy(url,done));
+  else legacyCopy(url,done);
+}
+function legacyCopy(text, cb) {
+  const ta = document.createElement('textarea'); ta.value=text;
+  document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove(); cb();
+}
+
+/* ============================================================
+   SEARCH EVENTS
+============================================================ */
+document.getElementById('searchInput').addEventListener('input', e => {
+  renderSearch(e.target.value);
+  // chip deselect
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  if (!e.target.value) document.querySelector('.chip[data-word=""]')?.classList.add('active');
+});
+document.getElementById('searchInput').addEventListener('keydown', e => {
+  if (e.key==='Enter') renderSearch(e.target.value);
+});
+document.getElementById('chipRow').addEventListener('click', e => {
+  const chip = e.target.closest('.chip');
+  if (!chip) return;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  const word = chip.dataset.word || '';
+  document.getElementById('searchInput').value = word;
+  renderSearch(word);
+});
+document.getElementById('catFilterRow').addEventListener('click', e => {
+  const chip = e.target.closest('.cat-chip');
+  if (!chip) return;
+  document.querySelectorAll('.cat-chip').forEach(c=>c.classList.remove('active'));
+  chip.classList.add('active');
+  currentCat = chip.dataset.cat;
+  renderBrowseFeed();
+});
+function clearSearchInput() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('clearSearch').style.display = 'none';
+  document.querySelector('.chip[data-word=""]')?.classList.add('active');
+  renderSearch('');
+}
+function focusSearch() {
+  document.getElementById('searchInput').focus();
+  document.getElementById('searchSection').scrollIntoView({ behavior:'smooth' });
+}
+function scrollToFeed() {
+  document.getElementById('mainFeed').scrollIntoView({ behavior:'smooth' });
+}
+
+/* ============================================================
+   MODALS
+============================================================ */
+function openAlertModal() {
+  document.getElementById('alertModal').classList.add('open');
+}
+function closeAlert() {
+  document.getElementById('alertModal').classList.remove('open');
+}
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+document.getElementById('alertModal').addEventListener('click', e => {
+  if(e.target===document.getElementById('alertModal')) closeAlert();
+});
+document.getElementById('estimateModal').addEventListener('click', e => {
+  if(e.target===document.getElementById('estimateModal')) closeModal('estimateModal');
+});
+
+/* ============================================================
+   ESTIMATE
+============================================================ */
+const productList = [
+  { name: 'Formula 1 건강한 식사', c: 64000, d: 52544 },
+  { name: 'Formula 2 멀티비타민·무기질 컴플렉스', c: 33800, d: 27790 },
+  { name: 'Formula 3 퍼스널 단백질 파우더', c: 66500, d: 54664 },
+  { name: 'Formula 1 쿠키앤크림맛 번들팩 (30포)', c: 67800, d: 52545 },
+  { name: '허벌 베버리지 번들팩 (30포)', c: 81000, d: 64489 },
+  { name: '마이뮨 플러스', c: 66500, d: 49856 },
+  { name: '면역튼튼 알로에겔 세트 - 오리지널 (6개입)', c: 312500, d: 234364 },
+  { name: '나이트웍스® 비타민 C, E, 엽산', c: 114700, d: 86004 },
+  { name: '나이트웍스® 6 선물세트 (2개입)', c: 229300, d: 172009 },
+  { name: '프롤레사 듀오', c: 205200, d: 153915 },
+  { name: '허벌 베버리지 - 오리지널', c: 78500, d: 58876 },
+  { name: '릴렉세이션 티', c: 78500, d: 58876 },
+  { name: '셀-유-로쓰', c: 33300, d: 24966 },
+  { name: '키토산 플러스', c: 100500, d: 75360 },
+  { name: '리프트오프® 오렌지향 (30정)', c: 104500, d: 78411 },
+  { name: '트리플 헬스 드링크 (10병)', c: 62600, d: 46434 },
+  { name: '엔-알-지 티', c: 35200, d: 26409 },
+  { name: '프로틴 바 디럭스 - 바닐라향 아몬드맛 (14개입)', c: 59100, d: 44291 },
+  { name: '허벌 알로에 겔 - 망고', c: 52100, d: 39061 },
+  { name: '액티브 화이버 컴플렉스', c: 58200, d: 43653 },
+  { name: '프로바이오틱 컴플렉스 플러스', c: 86900, d: 65178 },
+  { name: '허벌 코큐텐 플러스', c: 87300, d: 65511 },
+  { name: '허벌라이프라인 오메가-3', c: 61600, d: 46175 },
+  { name: '감마리놀렌산 플러스', c: 95500, d: 71656 },
+  { name: '콜라겐 뷰티 파우더', c: 102700, d: 77045 },
+  { name: '허바플렉스 글루코사민', c: 99000, d: 74222 },
+  { name: '칼슘 플러스 비타민 D', c: 36000, d: 27011 },
+  { name: '헬씨 아이', c: 90500, d: 67881 },
+  { name: '셀레늄 플러스', c: 35200, d: 26395 },
+  { name: '피크노® 플러스', c: 104200, d: 78184 },
+  { name: '와이즈 케어', c: 63800, d: 47820 },
+  { name: 'Formula 1 스포츠', c: 97900, d: 80393 },
+  { name: '리빌드 스트랭쓰', c: 158600, d: 130310 },
+  { name: '씨알세븐 드라이브', c: 58100, d: 43131 },
+  { name: '스포츠 프로그램', c: 314600, d: 253834 },
+  { name: '홍삼 진센 겔', c: 190400, d: 142795 },
+  { name: '티 선물세트', c: 118100, d: 88573 },
+  { name: '트리플 헬스 드링크 선물세트 (20병입)', c: 125200, d: 93937 },
+  { name: '프로틴 바 디럭스 선물세트 - 바닐라향 아몬드맛', c: 118100, d: 88584 },
+];
+
+function openEstimate() {
+  if (!isLoggedIn()) { openAlertModal(); return; }
+  const head = document.getElementById('estimateHead');
+  const body = document.getElementById('estimateBody');
+  head.innerHTML = `<tr><th>제품명</th><th>소비자가</th><th>디스트리뷰터가</th><th>수량</th><th>소계(소비자)</th><th>소계(회원)</th></tr>`;
+  body.innerHTML = productList.map((p,i) => `
+    <tr>
+      <td>${p.name}</td>
+      <td style="text-align:right">${p.c.toLocaleString()}원</td>
+      <td style="text-align:right">${p.d.toLocaleString()}원</td>
+      <td style="text-align:center"><input type="number" min="0" value="0" data-idx="${i}" oninput="updateEstimate()"></td>
+      <td style="text-align:right" id="ec${i}">0원</td>
+      <td style="text-align:right" id="ed${i}">0원</td>
+    </tr>
+  `).join('');
+  updateEstimate();
+  document.getElementById('estimateModal').classList.add('open');
+}
+function updateEstimate() {
+  let tc=0, td=0;
+  productList.forEach((p,i) => {
+    const qty = Number(document.querySelector(`input[data-idx="${i}"]`)?.value||0);
+    const sc = qty*p.c, sd = qty*p.d;
+    const ec = document.getElementById('ec'+i);
+    const ed = document.getElementById('ed'+i);
+    if(ec) ec.textContent = sc?sc.toLocaleString()+'원':'0원';
+    if(ed) ed.textContent = sd?sd.toLocaleString()+'원':'0원';
+    tc+=sc; td+=sd;
+  });
+  document.getElementById('estimateTotal').innerHTML =
+    `합계: <span style="color:var(--text)">${tc.toLocaleString()}원</span>  ·  회원가: <span>${td.toLocaleString()}원</span>`;
+}
+document.getElementById('estimateBtnNav').onclick = e => { e.preventDefault(); openEstimate(); };
+
+/* ============================================================
+   ACTIVITY LOG
+============================================================ */
+function saveActivityLog(type, extra) {
+  if (!isLoggedIn()) return;
+  const id   = localStorage.getItem('lastLoginId');
+  const name = localStorage.getItem('lastLoginName');
+  if (!id||!name) return;
+  fetch(`https://api.airtable.com/v0/${AT_BASE}/${AT_LOG_TABLE}`, {
+    method:'POST',
+    headers:{ 'Authorization':'Bearer '+AT_KEY, 'Content-Type':'application/json' },
+    body: JSON.stringify({ fields:{ herbalife_id:id, name, activity_type:type, activity_time:new Date().toISOString(), extra_info:extra||'' } })
+  });
+}
+
+/* ============================================================
+   AUTO LOGOUT
+============================================================ */
+let logoutTimer=null, warnTimer=null;
+const LOGOUT_MS = 60*60*1000;
+const WARN_MS   = LOGOUT_MS - 5*60*1000;
+
+function resetLogoutTimer() {
+  if (logoutTimer) clearTimeout(logoutTimer);
+  if (warnTimer) clearTimeout(warnTimer);
+  if (!isLoggedIn()||watchingVideo) return;
+  warnTimer   = setTimeout(showLogoutWarning, WARN_MS);
+  logoutTimer = setTimeout(autoLogout, LOGOUT_MS);
+  document.getElementById('logoutWarning').style.display = 'none';
+}
+function showLogoutWarning() {
+  document.getElementById('logoutWarning').style.display = 'block';
+}
+function autoLogout() {
+  setLogin(false);
+  document.getElementById('logoutWarning').style.display = 'none';
+  showToast('⏰ 1시간 동안 활동이 없어 자동 로그아웃 되었습니다.');
+}
+['click','keydown','touchstart'].forEach(evt => {
+  window.addEventListener(evt, resetLogoutTimer, true);
+});
+
+/* ============================================================
+   TOAST
+============================================================ */
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  if (toastTimer) clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+/* ============================================================
+   NAV SCROLL EFFECT
+============================================================ */
+window.addEventListener('scroll', () => {
+  document.getElementById('topNav').classList.toggle('scrolled', window.scrollY > 30);
+});
+
+/* ============================================================
+   INIT
+============================================================ */
+window.addEventListener('DOMContentLoaded', () => {
+  applyAuthVisibility();
+  if (isLoggedIn()) {
+    loadVideos();
+    resetLogoutTimer();
+  }
+});
+</script>
+
+<!-- VIDEO PLAYER MODAL -->
+<div id="videoPlayerModal">
+  <div class="vp-box">
+    <div class="vp-header">
+      <div class="vp-title" id="vpTitle"></div>
+      <button class="vp-close" onclick="closeVideoPlayer()">✕</button>
+    </div>
+    <div class="vp-iframe-wrap">
+      <iframe id="vpIframe"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+    <div class="vp-footer">
+      <span style="font-size:.8rem; color:var(--muted);">
+        <i class="fas fa-lock" style="color:var(--green);margin-right:4px"></i>
+        코치 전용 콘텐츠
+      </span>
+      <a id="vpYtLink" href="#" target="_blank" class="vp-yt-btn">
+        <i class="fab fa-youtube"></i> YouTube에서 보기
+      </a>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
