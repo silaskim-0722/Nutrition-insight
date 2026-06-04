@@ -161,7 +161,7 @@
        AUTH WALL  (비로그인 상태)
     ============================== */
     #authWall {
-      display:none;
+      display:flex;
       position:fixed; inset:0; z-index:800;
       background:
         radial-gradient(ellipse at 20% 10%, rgba(0,209,112,.12), transparent 50%),
@@ -1055,8 +1055,10 @@ function isLoggedIn() {
 }
 function applyAuthVisibility() {
   const loggedIn = isLoggedIn();
-  document.getElementById('authWall').style.display  = loggedIn ? 'none' : 'flex';
-  document.getElementById('mainContent').style.display = loggedIn ? 'block' : 'none';
+  const aw = document.getElementById('authWall');
+  const mc = document.getElementById('mainContent');
+  if (aw) aw.style.display  = loggedIn ? 'none' : 'flex';
+  if (mc) mc.style.display  = loggedIn ? 'block' : 'none';
   const lb = document.getElementById('loginBtn');
   lb.textContent = loggedIn ? '로그아웃' : '로그인';
   lb.className = loggedIn ? 'logged-in' : '';
