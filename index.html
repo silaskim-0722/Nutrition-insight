@@ -1415,11 +1415,15 @@ function closeVideoPlayer() {
   watchingVideo = false;
   resetLogoutTimer();
 }
-// 모달 바깥 클릭 시 닫기
-document.getElementById('videoPlayerModal').addEventListener('click', function(e) {
-  if (e.target === this) closeVideoPlayer();
+// 모달 바깥 클릭 + ESC — DOMContentLoaded 후 실행
+document.addEventListener('DOMContentLoaded', function() {
+  const vpm = document.getElementById('videoPlayerModal');
+  if (vpm) {
+    vpm.addEventListener('click', function(e) {
+      if (e.target === this) closeVideoPlayer();
+    });
+  }
 });
-// ESC 키로 닫기
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeVideoPlayer();
 });
