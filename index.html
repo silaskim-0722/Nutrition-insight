@@ -1038,7 +1038,7 @@ const SECTION_META = {
   '고객사례':   { label:'고객 성공사례', icon:'⭐' }
 };
 
-const AT_KEY  = ['patfyiX4h33ZcZopN.','952737b1246b7e8f4b8093bb308df2cdac3af1f9573696b4c5af6981f63374b4'].join('');
+const AT_KEY  = ['patvQCR0Ig9t0U1fU.4e4ffc58de2fb4fe56762ccc','6b2a8fd8b7a23178c7f5e03117ec7804e489c083'].join('');
 const AT_BASE = 'appAHmDSvu3AVoBMN';
 const AT_USERS_TABLE = 'tbluQFiRPVXzP50iV';
 const AT_LOG_TABLE   = 'activity_logs';
@@ -1416,7 +1416,8 @@ function closeVideoPlayer() {
   resetLogoutTimer();
 }
 // 모달 바깥 클릭 시 닫기
-document.getElementById('videoPlayerModal').addEventListener('click', function(e) {
+const _vpm = document.getElementById('videoPlayerModal');
+if (_vpm) _vpm.addEventListener('click', function(e) {
   if (e.target === this) closeVideoPlayer();
 });
 // ESC 키로 닫기
