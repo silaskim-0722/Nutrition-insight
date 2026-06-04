@@ -821,7 +821,7 @@
 </div>
 
 <!-- ============================== MAIN CONTENT ============================== -->
-<main id="mainContent">
+<main id="mainContent" style="display:none">
 
   <!-- Hero -->
   <section class="hero-banner" id="heroSection">
@@ -1194,10 +1194,10 @@ async function loadVideos() {
   if (videos.length > 0) { renderBrowseFeed(); return; }
   document.getElementById('loadingFeed').style.display = 'block';
   document.getElementById('videoRows').innerHTML = '';
+  // 병렬 로딩 — 7개 플레이리스트 동시 호출로 속도 대폭 개선
+  const results = await Promise.allSettled(PLAYLIST_IDS.map(pid => fetchPlaylistVideos(pid)));
   let all = [];
-  for (const pid of PLAYLIST_IDS) {
-    try { all = all.concat(await fetchPlaylistVideos(pid)); } catch(e) {}
-  }
+  results.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
   // dedupe by id
   const seen = new Set();
   videos = all.filter(v => { if(seen.has(v.id)) return false; seen.add(v.id); return true; });
