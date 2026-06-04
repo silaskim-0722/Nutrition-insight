@@ -161,7 +161,7 @@
        AUTH WALL  (비로그인 상태)
     ============================== */
     #authWall {
-      display:flex;
+      display:none;
       position:fixed; inset:0; z-index:800;
       background:
         radial-gradient(ellipse at 20% 10%, rgba(0,209,112,.12), transparent 50%),
@@ -773,7 +773,7 @@
 </nav>
 
 <!-- ============================== AUTH WALL ============================== -->
-<div id="authWall">
+<div id="authWall" style="display:flex">
   <div class="aw-logo"><i class="fas fa-leaf"></i> NUTRITION INSIGHT+</div>
   <p class="aw-sub">허벌라이프 코치 전용 프리미엄 웰니스 콘텐츠 플랫폼</p>
   <div class="auth-card fade-up">
@@ -1038,7 +1038,7 @@ const SECTION_META = {
   '고객사례':   { label:'고객 성공사례', icon:'⭐' }
 };
 
-const AT_KEY  = ['patvQCR0Ig9t0U1fU.4e4ffc58de2fb4fe56762ccc','c6b2a8fd8b7a23178c7f5e03117ec7804e489c083'].join('');
+const AT_KEY  = ['patfyiX4h33ZcZopN.','952737b1246b7e8f4b8093bb308df2cdac3af1f9573696b4c5af6981f63374b4'].join('');
 const AT_BASE = 'appAHmDSvu3AVoBMN';
 const AT_USERS_TABLE = 'tbluQFiRPVXzP50iV';
 const AT_LOG_TABLE   = 'activity_logs';
@@ -1055,10 +1055,8 @@ function isLoggedIn() {
 }
 function applyAuthVisibility() {
   const loggedIn = isLoggedIn();
-  const aw = document.getElementById('authWall');
-  const mc = document.getElementById('mainContent');
-  if (aw) aw.style.display  = loggedIn ? 'none' : 'flex';
-  if (mc) mc.style.display  = loggedIn ? 'block' : 'none';
+  document.getElementById('authWall').style.display  = loggedIn ? 'none' : 'flex';
+  document.getElementById('mainContent').style.display = loggedIn ? 'block' : 'none';
   const lb = document.getElementById('loginBtn');
   lb.textContent = loggedIn ? '로그아웃' : '로그인';
   lb.className = loggedIn ? 'logged-in' : '';
@@ -1194,10 +1192,10 @@ async function loadVideos() {
   if (videos.length > 0) { renderBrowseFeed(); return; }
   document.getElementById('loadingFeed').style.display = 'block';
   document.getElementById('videoRows').innerHTML = '';
-  // 병렬 로딩 — 7개 플레이리스트 동시 호출로 속도 대폭 개선
-  const results = await Promise.allSettled(PLAYLIST_IDS.map(pid => fetchPlaylistVideos(pid)));
   let all = [];
-  results.forEach(r => { if (r.status === 'fulfilled') all = all.concat(r.value); });
+  for (const pid of PLAYLIST_IDS) {
+    try { all = all.concat(await fetchPlaylistVideos(pid)); } catch(e) {}
+  }
   // dedupe by id
   const seen = new Set();
   videos = all.filter(v => { if(seen.has(v.id)) return false; seen.add(v.id); return true; });
